@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eduflowbackend", "eduflowbackend\eduflowbackend.csproj", "{9867AED4-A53F-4540-A5E6-C25BBAB94924}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eduflowbackend.Core", "eduflowbackend.Core\eduflowbackend.Core.csproj", "{B9FD0CCE-03E8-465B-A9F0-5251535788E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eduflowbackend.Infrastructure", "eduflowbackend.Infrastructure\eduflowbackend.Infrastructure.csproj", "{9BDA5129-885B-46A7-83C3-0EB0C9DE0DB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eduflowbackend.Application", "eduflowbackend.Application\eduflowbackend.Application.csproj", "{60125323-32CD-4223-BF04-E5000A15D78D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{9867AED4-A53F-4540-A5E6-C25BBAB94924}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9867AED4-A53F-4540-A5E6-C25BBAB94924}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9867AED4-A53F-4540-A5E6-C25BBAB94924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9FD0CCE-03E8-465B-A9F0-5251535788E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9FD0CCE-03E8-465B-A9F0-5251535788E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9FD0CCE-03E8-465B-A9F0-5251535788E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9FD0CCE-03E8-465B-A9F0-5251535788E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BDA5129-885B-46A7-83C3-0EB0C9DE0DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BDA5129-885B-46A7-83C3-0EB0C9DE0DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BDA5129-885B-46A7-83C3-0EB0C9DE0DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BDA5129-885B-46A7-83C3-0EB0C9DE0DB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60125323-32CD-4223-BF04-E5000A15D78D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60125323-32CD-4223-BF04-E5000A15D78D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60125323-32CD-4223-BF04-E5000A15D78D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60125323-32CD-4223-BF04-E5000A15D78D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
