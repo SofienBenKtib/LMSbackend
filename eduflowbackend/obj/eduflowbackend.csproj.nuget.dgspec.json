@@ -1,29 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Steven\\Desktop\\eduflowbackend\\eduflowbackend\\eduflowbackend.csproj": {}
+    "/Users/ahmedmohamedelahmar/Documents/GitHub/LMSbackend/eduflowbackend/eduflowbackend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Steven\\Desktop\\eduflowbackend\\eduflowbackend\\eduflowbackend.csproj": {
+    "/Users/ahmedmohamedelahmar/Documents/GitHub/LMSbackend/eduflowbackend/eduflowbackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Steven\\Desktop\\eduflowbackend\\eduflowbackend\\eduflowbackend.csproj",
+        "projectUniqueName": "/Users/ahmedmohamedelahmar/Documents/GitHub/LMSbackend/eduflowbackend/eduflowbackend.csproj",
         "projectName": "eduflowbackend",
-        "projectPath": "C:\\Users\\Steven\\Desktop\\eduflowbackend\\eduflowbackend\\eduflowbackend.csproj",
-        "packagesPath": "C:\\Users\\Steven\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Steven\\Desktop\\eduflowbackend\\eduflowbackend\\obj\\",
+        "projectPath": "/Users/ahmedmohamedelahmar/Documents/GitHub/LMSbackend/eduflowbackend/eduflowbackend.csproj",
+        "packagesPath": "/Users/ahmedmohamedelahmar/.nuget/packages/",
+        "outputPath": "/Users/ahmedmohamedelahmar/Documents/GitHub/LMSbackend/eduflowbackend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Steven\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/ahmedmohamedelahmar/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.telerik.com/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
@@ -39,8 +38,9 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "all"
-        }
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -70,7 +70,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
