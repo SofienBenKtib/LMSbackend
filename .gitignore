@@ -808,3 +808,4 @@ obj/
 /node_modules
 /wwwroot/node_modules
 
+.DS_Store
