@@ -1,4 +1,4 @@
-﻿using eduflowbackend.Core.enums;
+﻿using eduflowbackend.Core.User;
 
 namespace eduflowbackend.Application.dtos;
 
