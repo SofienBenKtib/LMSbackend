@@ -1,32 +1,59 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using eduflowbackend.Core.enums;
+﻿namespace eduflowbackend.Core.User;
 
-namespace eduflowbackend.Core.entities;
-
-public class User
+public class User : AuditableEntity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
-    [Required] [StringLength(50)] public string FirstName { get; set; }
-    [Required] [StringLength(50)] public string LastName { get; set; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public string Email { get; private set; }
+    public string PhoneNumber { get; private set; }
+    public Role Role { get; private set; }
+    public string IdentityProviderId { get; private set; }
+    
+    
+    public User(string firstName, string lastName, string email, string phoneNumber)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        IdentityProviderId = $"NA-{GetUsername()}";
+    }
 
-    [Required]
-    [EmailAddress]
-    [StringLength(50)]
-    public string Email { get; set; }
+    private User(string firstName, string lastName, string email, string phoneNumber, Role role)
+    :this(firstName, lastName, email, phoneNumber)
+    {
+        Role = role;
+    }
 
-    [Required] [StringLength(50)] public string Password { get; set; }
-    [Required] [StringLength(50)] public string Phone { get; set; }
-    [Required] public Role Role { get; set; }
-    [Required] public DateTime CreatedOn { get; set; }
+    public static User CreateAdmin(string firstName, string lastName, string email, string phoneNumber)
+    {
+        return new User(firstName, lastName, email, phoneNumber, Role.Admin);
+    }
+    
+    public static User CreateInstructor(string firstName, string lastName, string email, string phoneNumber)
+    {
+        return new User(firstName, lastName, email, phoneNumber, Role.Instructor);
+    }
+    
+    public static User CreateParticipant(string firstName, string lastName, string email, string phoneNumber)
+    {
+        return new User(firstName, lastName, email, phoneNumber, Role.Participant);
+    }
+    
+    public string GetUsername()
+    {
+        return $"{FirstName.Replace(' ', '-')}-{LastName.Replace(' ', '-')}".ToLower();
+    }
 
-    public DateTime ModifiedOn { get; set; }
+    public static string GetUsername(string firstname, string lastname)
+    {
+        return $"{firstname.Replace(' ', '-')}-{lastname.Replace(' ', '-')}".ToLower();
+    }
 
-    // Navigation properties
-    public ICollection<Session> CreatedSessions { get; set; } //Sessions created (If Instructor)
-    public ICollection<Session> AttendedSessions { get; set; } //Sessions joined (If Participant)
-    public ICollection<Resource> AddedResources { get; set; } //Resources added by the User
+    // // Navigation properties
+    // public ICollection<Session.Session> CreatedSessions { get; set; } //Sessions created (If Instructor)
+    // public ICollection<Session.Session> AttendedSessions { get; set; } //Sessions joined (If Participant)
+    // public ICollection<Resource.Resource> AddedResources { get; set; } //Resources added by the User
 }

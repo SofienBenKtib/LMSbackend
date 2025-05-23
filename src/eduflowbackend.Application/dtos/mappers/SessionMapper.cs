@@ -1,4 +1,4 @@
-﻿using eduflowbackend.Core.entities;
+﻿using eduflowbackend.Core.Session;
 
 namespace eduflowbackend.Application.dtos.mappers;
 

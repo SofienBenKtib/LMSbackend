@@ -1,4 +1,4 @@
-﻿using eduflowbackend.Core.entities;
+﻿using eduflowbackend.Core.Resource;
 
 namespace eduflowbackend.Application.dtos.mappers;
 
@@ -12,7 +12,7 @@ public class ResourceMapper
             Title = resource.Title,
             Description = resource.Description,
             CreatedAt = resource.CreatedAt,
-            AddedById = resource.AddedById,
+            AddedById = resource.CreatorId,
             SessionId = resource.SessionId,
         };
     }
@@ -24,7 +24,7 @@ public class ResourceMapper
             Title = dto.Title,
             Description = dto.Description,
             CreatedAt = DateTime.UtcNow,
-            AddedById = addedById,
+            CreatorId = addedById,
             SessionId = dto.SessionId
         };
     }
