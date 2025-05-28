@@ -29,6 +29,14 @@ services:
       - "8080:8080"
     depends_on:
       - postgres
+      - 
+  email-server:
+    image: changemakerstudiosus/papercut-smtp:latest
+    container_name: papercut
+    ports:
+      - "8088:80"
+      - "2525:25"
+    user: "root"
 volumes:
   postgres_data:
     driver: local
