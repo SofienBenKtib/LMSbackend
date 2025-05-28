@@ -10,4 +10,9 @@
       <ProjectReference Include="..\eduflowbackend.Core\eduflowbackend.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="FluentResults.Extensions.AspNetCore" />
+      <PackageReference Include="Mediator.Abstractions" />
+    </ItemGroup>
+
 </Project>
