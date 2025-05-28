@@ -42,6 +42,15 @@ public class User : AuditableEntity
         return new User(firstName, lastName, email, phoneNumber, Role.Participant);
     }
     
+    public void UpdateIdentityGuid(string identityGuid)
+    {
+        if (string.IsNullOrEmpty(identityGuid))
+        {
+            throw new ArgumentException("Identity guid should not be null.");
+        }
+        IdentityProviderId = identityGuid;
+    }
+    
     public string GetUsername()
     {
         return $"{FirstName.Replace(' ', '-')}-{LastName.Replace(' ', '-')}".ToLower();

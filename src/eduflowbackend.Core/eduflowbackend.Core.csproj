@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Ardalis.Specification" />
+      <PackageReference Include="FluentResults.Extensions.AspNetCore" />
+    </ItemGroup>
+
 </Project>
