@@ -1,6 +1,6 @@
 ﻿namespace eduflowbackend.Application.dtos;
 
-public class SessionDTO
+public class SessionDto
 {
     public Guid Id { get; set; }
     public string Title { get; set; }

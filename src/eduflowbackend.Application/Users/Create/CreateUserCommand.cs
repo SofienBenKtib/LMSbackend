@@ -4,6 +4,9 @@ using Mediator;
 
 namespace eduflowbackend.Application.Users.Create;
 
+/// <summary>
+/// This class is a DTO, used to receive data from the front-end
+/// </summary>
 public class CreateUserRequest
 {
     public string Firstname { get; set; } = string.Empty;
@@ -13,6 +16,9 @@ public class CreateUserRequest
     public Role Role { get; set; }
 }
 
+/// <summary>
+/// This class represnts a command in the CQRS pattern.
+/// </summary>
 public class CreateUserCommand : IRequest<Result<Guid>>
 {
     public CreateUserCommand(string firstname, string lastname, string email, string phoneNumber, Role role)

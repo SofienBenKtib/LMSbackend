@@ -1,6 +1,6 @@
 ﻿namespace eduflowbackend.Application.dtos;
 
-public class ResourceDTO
+public class ResourceDto
 {
     public Guid Id { get; set; }
     public string Title { get; set; }
