@@ -27,14 +27,14 @@ public class UserController : ControllerBase
     [HttpGet("get/{id}")]
     public async Task<IActionResult> GetUserById(Guid id)
     {
-        var result = await _mediator.Send(new GetUserByIdQuery { Id = id });
+        var result = await _mediator.Send(new GetUserByIdQuery(id));
         return Ok(result);
     }
 
     [HttpGet("get-all")]
     public async Task<IActionResult> GetAllUsers()
     {
-        var result = await _mediator.Send(new GetAllUsersQuery());
+        var result = await _mediator.Send(new GetAllUsersCommand());
         return Ok(result);
     }
 
@@ -50,7 +50,7 @@ public class UserController : ControllerBase
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
-        var result = await _mediator.Send(new DeleteUserCommand { Id = id });
+        var result = await _mediator.Send(new DeleteUserCommand(id));
         return Ok(result);
     }
 }

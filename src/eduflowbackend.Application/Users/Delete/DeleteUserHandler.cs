@@ -1,5 +1,6 @@
 ﻿using eduflowbackend.Application.Abstractions;
 using eduflowbackend.Core.Abstractions;
+using eduflowbackend.Core.Exceptions;
 using eduflowbackend.Core.User;
 using FluentResults;
 using Mediator;
@@ -23,7 +24,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, Result<Guid>
         var user = await _repository.GetByIdAsync(request.UserId, cancellationToken);
         if (user == null)
         {
-            return Result.Fail<Guid>("User not found");
+            return Result.Fail(new NotFoundError("User", request.UserId.ToString()));
         }
 
         //  Deleting from Keycloak (if exists)

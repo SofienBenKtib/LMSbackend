@@ -1,4 +1,5 @@
-﻿using eduflowbackend.Core.Abstractions;
+﻿using eduflowbackend.Application.dtos;
+using eduflowbackend.Core.Abstractions;
 using eduflowbackend.Core.User;
 using FluentResults;
 using Mediator;
@@ -6,17 +7,18 @@ using Microsoft.Extensions.Logging;
 
 namespace eduflowbackend.Application.Users.Get;
 
-public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<List<User>>>
+public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<List<UserDTO>>>
 {
-    private readonly IRepository<User> _repository;
+    private readonly IRepository<UserDTO> _repository;
     // private readonly ILogger<GetAllUsersHandler> _logger;
 
-    public GetAllUsersHandler(IRepository<User> repository)
+    public GetAllUsersHandler(IRepository<UserDTO> repository)
     {
         _repository = repository;
     }
 
-    public async ValueTask<Result<List<User>>> Handle(GetAllUsersCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Result<List<UserDTO>>> Handle(GetAllUsersCommand request,
+        CancellationToken cancellationToken)
     {
         try
         {
@@ -25,7 +27,7 @@ public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<Lis
         }
         catch (Exception ex)
         {
-            return Result.Fail<List<User>>("Failed to get users" + ex.Message);
+            return Result.Fail<List<UserDTO>>("Failed to get users" + ex.Message);
         }
     }
 }

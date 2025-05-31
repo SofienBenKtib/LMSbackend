@@ -1,6 +1,7 @@
-﻿using eduflowbackend.Core.User;
+﻿using eduflowbackend.Application.dtos;
+using FluentResults;
 using Mediator;
 
 namespace eduflowbackend.Application.Users.Get;
 
-public record GetUserByIdQuery(Guid Id):IRequest<User>;
+public record GetUserByIdQuery(Guid Id) : IRequest<Result<UserDTO>>;

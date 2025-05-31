@@ -25,4 +25,9 @@ public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepositor
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
+
+    public Task<User> FindByIdAsync(Guid requestId)
+    {
+        throw new NotImplementedException();
+    }
 }
