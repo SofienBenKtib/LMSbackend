@@ -24,7 +24,7 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(Guid id)
     {
         var result = await _mediator.Send(new GetUserByIdQuery(id));
@@ -38,7 +38,7 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(Guid id, UpdateUserCommand command)
     {
         if (id != command.Id)
@@ -47,7 +47,7 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         var result = await _mediator.Send(new DeleteUserCommand(id));
