@@ -4,9 +4,9 @@ namespace eduflowbackend.Application.dtos.mappers;
 
 public class SessionMapper
 {
-    public static SessionDTO ToDto(Session session)
+    public static SessionDto ToDto(Session session)
     {
-        return new SessionDTO
+        return new SessionDto
         {
             Id = session.Id,
             Title = session.Title,
@@ -17,7 +17,7 @@ public class SessionMapper
         };
     }
 
-    public static Session ToEntity(SessionDTO dto)
+    public static Session ToEntity(SessionDto dto)
     {
         return new Session
         {

@@ -4,4 +4,4 @@ using Mediator;
 
 namespace eduflowbackend.Application.Users.Get;
 
-public record GetUserByIdQuery(Guid Id) : IRequest<Result<UserDTO>>;
+public record GetUserByIdQuery(Guid Id) : IRequest<Result<UserDto>>;

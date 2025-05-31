@@ -4,9 +4,9 @@ namespace eduflowbackend.Application.dtos.mappers;
 
 public class UserMapper
 {
-    public static UserDTO ToDto(User user)
+    public static UserDto ToDto(User user)
     {
-        return new UserDTO
+        return new UserDto
         {
             Id = user.Id,
             FirstName = user.FirstName,

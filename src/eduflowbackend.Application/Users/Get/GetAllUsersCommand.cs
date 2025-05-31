@@ -4,6 +4,6 @@ using Mediator;
 
 namespace eduflowbackend.Application.Users.Get;
 
-public class GetAllUsersCommand : IRequest<Result<List<UserDTO>>>
+public class GetAllUsersCommand : IRequest<Result<List<UserDto>>>
 {
 }

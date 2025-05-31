@@ -7,24 +7,24 @@ using Mediator;
 
 namespace eduflowbackend.Application.Users.Get;
 
-public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<UserDTO>>
+public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<UserDto>>
 {
-    private readonly IRepository<UserDTO> _repository;
+    private readonly IRepository<UserDto> _repository;
 
-    public GetUserByIdQueryHandler(IRepository<UserDTO> repository)
+    public GetUserByIdQueryHandler(IRepository<UserDto> repository)
     {
         _repository = repository;
     }
 
-    public async ValueTask<Result<UserDTO>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+    public async ValueTask<Result<UserDto>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
         var user = await _repository.FindByIdAsync(request.Id);
         if (user == null)
         {
-            return Result.Fail<UserDTO>(new NotFoundError(nameof(User), request.Id.ToString()));
+            return Result.Fail<UserDto>(new NotFoundError(nameof(User), request.Id.ToString()));
         }
 
-        var userDto = new UserDTO
+        var userDto = new UserDto
         {
             Id = user.Id,
             FirstName = user.FirstName,

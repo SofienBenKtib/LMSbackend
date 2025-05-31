@@ -17,28 +17,28 @@ public class UserController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost("create")]
+    [HttpPost]
     public async Task<IActionResult> AddUser(CreateUserCommand command)
     {
         var result = await _mediator.Send(command);
         return Ok(result);
     }
 
-    [HttpGet("get/{id}")]
+    [HttpGet]
     public async Task<IActionResult> GetUserById(Guid id)
     {
         var result = await _mediator.Send(new GetUserByIdQuery(id));
         return Ok(result);
     }
 
-    [HttpGet("get-all")]
+    [HttpGet]
     public async Task<IActionResult> GetAllUsers()
     {
         var result = await _mediator.Send(new GetAllUsersCommand());
         return Ok(result);
     }
 
-    [HttpPut("update/{id}")]
+    [HttpPut]
     public async Task<IActionResult> UpdateUser(Guid id, UpdateUserCommand command)
     {
         if (id != command.Id)
@@ -47,7 +47,7 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
-    [HttpDelete("delete/{id}")]
+    [HttpDelete]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         var result = await _mediator.Send(new DeleteUserCommand(id));

@@ -7,17 +7,17 @@ using Microsoft.Extensions.Logging;
 
 namespace eduflowbackend.Application.Users.Get;
 
-public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<List<UserDTO>>>
+public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<List<UserDto>>>
 {
-    private readonly IRepository<UserDTO> _repository;
+    private readonly IRepository<UserDto> _repository;
     // private readonly ILogger<GetAllUsersHandler> _logger;
 
-    public GetAllUsersHandler(IRepository<UserDTO> repository)
+    public GetAllUsersHandler(IRepository<UserDto> repository)
     {
         _repository = repository;
     }
 
-    public async ValueTask<Result<List<UserDTO>>> Handle(GetAllUsersCommand request,
+    public async ValueTask<Result<List<UserDto>>> Handle(GetAllUsersCommand request,
         CancellationToken cancellationToken)
     {
         try
@@ -27,7 +27,7 @@ public class GetAllUsersHandler : IRequestHandler<GetAllUsersCommand, Result<Lis
         }
         catch (Exception ex)
         {
-            return Result.Fail<List<UserDTO>>("Failed to get users" + ex.Message);
+            return Result.Fail<List<UserDto>>("Failed to get users" + ex.Message);
         }
     }
 }

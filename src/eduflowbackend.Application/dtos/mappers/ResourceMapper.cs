@@ -4,9 +4,9 @@ namespace eduflowbackend.Application.dtos.mappers;
 
 public class ResourceMapper
 {
-    public static ResourceDTO ToDTO(Resource resource)
+    public static ResourceDto ToDTO(Resource resource)
     {
-        return new ResourceDTO
+        return new ResourceDto
         {
             Id = resource.Id,
             Title = resource.Title,
@@ -17,7 +17,7 @@ public class ResourceMapper
         };
     }
 
-    public static Resource ToEntity(ResourceDTO dto, Guid addedById)
+    public static Resource ToEntity(ResourceDto dto, Guid addedById)
     {
         return new Resource
         {
