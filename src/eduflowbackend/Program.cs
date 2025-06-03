@@ -1,4 +1,5 @@
 using eduflowbackend.Infrastructure;
+using eduflowbackend.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,15 @@ builder.AddInfrastructureServices();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+//  Seeding the data
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<DataSeeder>>();
+    //  Instantiating DataSeeder manually
+    var seeder = new DataSeeder(dbContext, logger);
+    await seeder.SeedAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
