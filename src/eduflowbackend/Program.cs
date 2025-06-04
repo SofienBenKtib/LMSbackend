@@ -1,11 +1,18 @@
 using eduflowbackend.Infrastructure;
 using eduflowbackend.Infrastructure.Data;
+using Mediator;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.AddInfrastructureServices();
+
+builder.Services.AddMediator(options =>
+{
+    options.Namespace = "eduflowbackend.Application";
+    options.ServiceLifetime = ServiceLifetime.Scoped;
+});
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -15,8 +22,9 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<DataSeeder>>();
+    var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
     //  Instantiating DataSeeder manually
-    var seeder = new DataSeeder(dbContext, logger);
+    var seeder = new DataSeeder(dbContext, logger, mediator);
     await seeder.SeedAsync();
 }
 

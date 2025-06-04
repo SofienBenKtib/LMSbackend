@@ -1,18 +1,22 @@
 ﻿using eduflowbackend.Application.Abstractions;
+using eduflowbackend.Application.Users.Create;
 using eduflowbackend.Core.User;
+using Mediator;
 using Microsoft.Extensions.Logging;
 
 namespace eduflowbackend.Infrastructure.Data;
 
 public class DataSeeder : IDataSeeder
 {
+    private readonly IMediator _mediator;
     private readonly ApplicationDbContext _context;
     private readonly ILogger<DataSeeder> _logger;
 
-    public DataSeeder(ApplicationDbContext context, ILogger<DataSeeder> logger)
+    public DataSeeder(ApplicationDbContext context, ILogger<DataSeeder> logger, IMediator mediator)
     {
         _context = context;
         _logger = logger;
+        _mediator = mediator;
     }
 
     public async Task SeedAsync()
@@ -37,12 +41,14 @@ public class DataSeeder : IDataSeeder
             _logger.LogInformation("Seeding users...");
             var users = new List<User>
             {
-                new User("fname", "surname", "email@email.com", "54791256"),
-                new User("another", "user", "A@email.com", "123456"),
-                new User("new", "test", "B@email.com", "794613"),
+                new("fname", "surname", "email@email.com", "54791256"),
+                new("another", "user", "A@email.com", "123456"),
+                new("new", "test", "B@email.com", "794613"),
             };
-            await _context.Users.AddRangeAsync(users);
-            await _context.SaveChangesAsync();
+            foreach (var command in users.Select(user => new CreateUserCommand(user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.Role)))
+            {
+                await _mediator.Send(command);
+            }
         }
     }
 }
