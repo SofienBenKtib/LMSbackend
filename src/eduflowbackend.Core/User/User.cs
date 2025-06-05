@@ -8,7 +8,7 @@ public class User : AuditableEntity
     public string LastName { get; private set; }
     public string Email { get; private set; }
     public string PhoneNumber { get; private set; }
-    public Role Role { get; private set; }
+    public Role Role { get; private set; } = Role.Participant;
     public string IdentityProviderId { get; private set; }
     
     
