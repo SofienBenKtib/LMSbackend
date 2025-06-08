@@ -1,0 +1,21 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Packages.props" />
+    <File Path="nuget.config" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/eduflowbackend.Application/eduflowbackend.Application.csproj" />
+    <Project Path="src/eduflowbackend.Core/eduflowbackend.Core.csproj" />
+    <Project Path="src/eduflowbackend.Infrastructure/eduflowbackend.Infrastructure.csproj" />
+    <Project Path="src/eduflowbackend/eduflowbackend.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/eduflowbackend.UnitTests/eduflowbackend.UnitTests.csproj" />
+  </Folder>
+</Solution>
