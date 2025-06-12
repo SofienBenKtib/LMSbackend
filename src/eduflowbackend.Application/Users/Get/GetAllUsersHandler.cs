@@ -1,9 +1,7 @@
 ﻿using eduflowbackend.Application.dtos;
 using eduflowbackend.Core.Abstractions;
-using eduflowbackend.Core.User;
 using FluentResults;
 using Mediator;
-using Microsoft.Extensions.Logging;
 
 namespace eduflowbackend.Application.Users.Get;
 

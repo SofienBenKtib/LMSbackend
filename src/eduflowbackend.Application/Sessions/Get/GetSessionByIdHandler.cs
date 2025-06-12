@@ -19,7 +19,7 @@ public class GetSessionByIdHandler : IRequestHandler<GetSessionByIdQuery, Result
     public async ValueTask<Result<SessionDto>> Handle(GetSessionByIdQuery request, CancellationToken cancellationToken)
     {
         //  Checking the existence of the session in the DB
-        var session = await _repository.FindSessionByIdAsync(request.Id);
+        var session = await _repository.GetByIdAsync(request.Id, cancellationToken);
         if (session == null)
         {
             return Result.Fail<SessionDto>(new NotFoundError(nameof(Session), request.Id.ToString()));
