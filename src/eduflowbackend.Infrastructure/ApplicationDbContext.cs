@@ -1,4 +1,5 @@
-﻿using eduflowbackend.Core.User;
+﻿using eduflowbackend.Core.Session;
+using eduflowbackend.Core.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace eduflowbackend.Infrastructure;
@@ -6,6 +7,7 @@ namespace eduflowbackend.Infrastructure;
 public class ApplicationDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Session> Sessions { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {

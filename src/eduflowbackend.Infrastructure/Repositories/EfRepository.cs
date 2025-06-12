@@ -1,5 +1,6 @@
 using Ardalis.Specification.EntityFrameworkCore;
 using eduflowbackend.Core.Abstractions;
+using eduflowbackend.Core.Session;
 using eduflowbackend.Core.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,8 +27,13 @@ public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepositor
             .ToListAsync(cancellationToken);
     }
 
-    public Task<User> FindByIdAsync(Guid requestId)
+    public async Task<User> FindByIdAsync(Guid requestId)
     {
-        throw new NotImplementedException();
+        return await _appDbContext.Users.FirstOrDefaultAsync(u => u.Id == requestId);
+    }
+
+    public async Task<Session> FindSessionByIdAsync(Guid requestId)
+    {
+        return await _appDbContext.Sessions.FirstOrDefaultAsync(s => s.Id == requestId);
     }
 }
