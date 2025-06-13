@@ -3,7 +3,7 @@ using Mediator;
 
 namespace eduflowbackend.Application.Queries;
 
-public class UpdateUserCommand:IRequest<Result<string>>
+public class UpdateUserCommand:IRequest<Result>
 {
     public Guid Id { get; set; }
     public string FirstName { get; set; }

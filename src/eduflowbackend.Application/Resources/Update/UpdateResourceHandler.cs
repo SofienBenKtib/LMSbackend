@@ -5,7 +5,7 @@ using Mediator;
 
 namespace eduflowbackend.Application.Resources.Update;
 
-public class UpdateResourceHandler : IRequestHandler<UpdateResourceCommand, Result<string>>
+public class UpdateResourceHandler : IRequestHandler<UpdateResourceCommand, Result>
 {
     private readonly IRepository<Resource> _repository;
 
@@ -14,7 +14,7 @@ public class UpdateResourceHandler : IRequestHandler<UpdateResourceCommand, Resu
         _repository = repository;
     }
 
-    public async ValueTask<Result<string>> Handle(UpdateResourceCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Result> Handle(UpdateResourceCommand request, CancellationToken cancellationToken)
     {
         //  Retrieve the resource from the Db
         var resource = await _repository.GetByIdAsync(request.Id, cancellationToken);
@@ -30,6 +30,6 @@ public class UpdateResourceHandler : IRequestHandler<UpdateResourceCommand, Resu
         await _repository.UpdateAsync(resource);
         await _repository.SaveChangesAsync(cancellationToken);
 
-        return Result.Ok("Updated successfully!");
+        return Result.Ok();
     }
 }

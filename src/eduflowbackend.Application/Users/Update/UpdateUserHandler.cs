@@ -6,7 +6,7 @@ using Mediator;
 
 namespace eduflowbackend.Application.Handlers.User;
 
-public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, Result<string>>
+public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, Result>
 {
     private readonly IRepository<Core.User.User> _repository;
 
@@ -15,7 +15,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, Result<strin
         _repository = repository;
     }
 
-    public async ValueTask<Result<string>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Result> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         //  Retrieve the user from the DB
         var user = await _repository.GetByIdAsync(request.Id, cancellationToken);
@@ -25,9 +25,9 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, Result<strin
         }
 
         //  Updating the user
-        user.Update(request.FirstName, request.LastName,request.Email, request.PhoneNumber);
+        user.Update(request.FirstName, request.LastName, request.Email, request.PhoneNumber);
         // user.Password=request.Password;
         await _repository.UpdateAsync(user, cancellationToken);
-        return Result.Ok("User updated");
+        return Result.Ok();
     }
 }
