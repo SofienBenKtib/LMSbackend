@@ -1,10 +1,11 @@
 ﻿using eduflowbackend.Core.Abstractions;
 using eduflowbackend.Core.Resource;
+using FluentResults;
 using Mediator;
 
 namespace eduflowbackend.Application.Resources.Update;
 
-public class UpdateResourceHandler : IRequestHandler<UpdateResourceCommand, string>
+public class UpdateResourceHandler : IRequestHandler<UpdateResourceCommand, Result<string>>
 {
     private readonly IRepository<Resource> _repository;
 
@@ -13,14 +14,14 @@ public class UpdateResourceHandler : IRequestHandler<UpdateResourceCommand, stri
         _repository = repository;
     }
 
-    public async ValueTask<string> Handle(UpdateResourceCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Result<string>> Handle(UpdateResourceCommand request, CancellationToken cancellationToken)
     {
         //  Retrieve the resource from the Db
         var resource = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
         if (resource == null)
         {
-            return $"Resource with Id {request.Id} does not exist";
+            return Result.Fail("Resource not found");
         }
 
         resource.Title = request.Title;
@@ -29,6 +30,6 @@ public class UpdateResourceHandler : IRequestHandler<UpdateResourceCommand, stri
         await _repository.UpdateAsync(resource);
         await _repository.SaveChangesAsync(cancellationToken);
 
-        return $"Resource with Id {request.Id} updated";
+        return Result.Ok("Updated successfully!");
     }
 }

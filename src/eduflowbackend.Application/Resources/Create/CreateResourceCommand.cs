@@ -17,8 +17,8 @@ public class CreateResourceRequest
 /// </summary>
 public class CreateResourceCommand : IRequest<Result<Guid>>
 {
-    public string Title { get; set; }
-    public string Description { get; set; }
+    public string Title { get;}
+    public string Description { get;}
 
     public CreateResourceCommand(string title, string description)
     {

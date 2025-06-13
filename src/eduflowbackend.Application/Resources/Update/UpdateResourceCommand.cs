@@ -1,8 +1,9 @@
-﻿using Mediator;
+﻿using FluentResults;
+using Mediator;
 
 namespace eduflowbackend.Application.Resources.Update;
 
-public class UpdateResourceCommand:IRequest<string>
+public class UpdateResourceCommand:IRequest<Result<string>>
 {
     public Guid Id { get; set; }
     public string Title { get; set; }
