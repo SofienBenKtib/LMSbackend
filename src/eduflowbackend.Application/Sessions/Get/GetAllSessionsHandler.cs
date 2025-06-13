@@ -17,14 +17,7 @@ public class GetAllSessionsHandler : IRequestHandler<GetAllSessionsQuery, Result
     public async ValueTask<Result<List<SessionDto>>> Handle(GetAllSessionsQuery request,
         CancellationToken cancellationToken)
     {
-        try
-        {
             var sessions = await _repository.GetAllAsync(cancellationToken);
             return Result.Ok(sessions);
-        }
-        catch (Exception e)
-        {
-            return Result.Fail<List<SessionDto>>("Failed to get sessions" + e.Message);
-        }
     }
 }
