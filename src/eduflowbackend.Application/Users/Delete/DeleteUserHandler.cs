@@ -37,7 +37,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, Result<Guid>
             }
         }
 
-        //  Delete fromt the database
+        //  Delete from the database
         await _repository.DeleteAsync(user);
         return Result.Ok();
     }

@@ -18,7 +18,7 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<
 
     public async ValueTask<Result<UserDto>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        var user = await _repository.FindByIdAsync(request.Id);
+        var user = await _repository.GetByIdAsync(request.Id, cancellationToken);
         if (user == null)
         {
             return Result.Fail<UserDto>(new NotFoundError(nameof(User), request.Id.ToString()));
