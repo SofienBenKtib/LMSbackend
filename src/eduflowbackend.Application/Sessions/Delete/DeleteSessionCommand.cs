@@ -7,7 +7,7 @@ public class DeleteSessionCommand : IRequest<Result<Guid>>
 {
     public DeleteSessionCommand(Guid sessionId)
     {
-        sessionId = sessionId;
+        SessionId = sessionId;
     }
     
     public Guid SessionId { get; set; }

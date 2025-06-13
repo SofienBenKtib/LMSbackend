@@ -4,12 +4,12 @@ public class User : AuditableEntity
 {
     public Guid Id { get; set; }
 
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public string Email { get; private set; }
-    public string PhoneNumber { get; private set; }
-    public Role Role { get; private set; } = Role.Participant;
-    public string IdentityProviderId { get; private set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Email { get; set; }
+    public string PhoneNumber { get; set; }
+    public Role Role { get;  set; } = Role.Participant;
+    public string IdentityProviderId { get;  set; }
     
     
     public User(string firstName, string lastName, string email, string phoneNumber)
