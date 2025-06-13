@@ -17,9 +17,9 @@ public class DeleteSessionHandler : IRequestHandler<DeleteSessionCommand, Result
     public async ValueTask<Result<Guid>> Handle(DeleteSessionCommand request, CancellationToken cancellationToken)
     {
         //  Finding the session in the DB
-        var session=await _repository.GetByIdAsync(request.SessionId);
-        
-        
+        var session = await _repository.GetByIdAsync(request.SessionId);
+
+
         //  Deleting the session
         await _repository.DeleteAsync(session);
         return Result.Ok();

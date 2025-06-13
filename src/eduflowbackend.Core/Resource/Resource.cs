@@ -14,4 +14,14 @@ public class Resource : AuditableEntity
     public User.User Creator { get; set; }
     public Guid SessionId { get; set; } //  The Id of the session where the resource belongs
     public Session.Session Session { get; set; }
+
+    public Resource()
+    {
+        
+    }
+
+    public Resource(string title, string description)
+    {
+        
+    }
 }
