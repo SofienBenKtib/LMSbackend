@@ -2,6 +2,7 @@
 using eduflowbackend.Application.Resources.Delete;
 using eduflowbackend.Application.Resources.Get;
 using eduflowbackend.Application.Resources.Update;
+using eduflowbackend.Application.Resources.Upload;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,6 +24,26 @@ public class ResourceController : ControllerBase
     {
         var result = await _mediator.Send(command);
         return Ok(result);
+    }
+
+    [HttpPost("upload")]
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UploadResource(IFormFile file)
+    {
+        try
+        {
+            //  Creating the command
+            var command = new UploadResourceCommand(file);
+            //  Sending the command through IMediatR
+            var filedId = await _mediator.Send(command, HttpContext.RequestAborted);
+
+            return Ok(filedId);
+        }
+        catch (ArgumentException e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpGet("{id}")]
