@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace eduflowbackend.Controllers;
 
 [ApiController]
-[Route("[/api/controller]")]
+[Route("/api/[controller]")]
 public class SessionController : ControllerBase
 {
     private readonly IMediator _mediator;

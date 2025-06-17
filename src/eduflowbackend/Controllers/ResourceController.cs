@@ -12,13 +12,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace eduflowbackend.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
-public class ResourceController : ControllerBase
+[Route("api/[controller]")]
+public class ResourcesController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IRepository<Resource> _repository;
 
-    public ResourceController(IMediator mediator, IRepository<Resource> repository)
+    public ResourcesController(IMediator mediator, IRepository<Resource> repository)
     {
         _mediator = mediator;
         _repository = repository;
@@ -32,9 +32,7 @@ public class ResourceController : ControllerBase
     }
 
     [HttpPost("upload")]
-    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UploadResource(IFormFile file)
+    public async Task<IActionResult> UploadResource([FromBody] IFormFile file)
     {
         try
         {
