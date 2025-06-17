@@ -7,28 +7,37 @@ using Microsoft.Extensions.Logging;
 
 namespace eduflowbackend.Application.Resources.Download;
 
-public class DownloadResourceHandler : IRequestHandler<DownloadResourceCommand, Guid>
+public class DownloadResourceHandler : IRequestHandler<DownloadResourceCommand, ResourceDownloadResult>
 {
     private readonly IRepository<Resource> _repository;
 
-    public DownloadResourceHandler(
-        IRepository<Resource> repository)
+    public DownloadResourceHandler(IRepository<Resource> repository)
     {
         _repository = repository;
     }
 
-    public async ValueTask<Guid> Handle(DownloadResourceCommand request, CancellationToken cancellationToken)
+    public async ValueTask<ResourceDownloadResult> Handle(DownloadResourceCommand request,
+        CancellationToken cancellationToken)
     {
         //  Retrieves the resource from the repository
         var resource = await _repository.GetByIdAsync(request.ResourceId, cancellationToken);
         if (resource == null)
-            throw new KeyNotFoundException("Resource not found");
+            throw new FileNotFoundException("Resource not found");
 
-        //  Build the expected file path 
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", resource.Title);
+        //  Determining the file extension from the title
+        var extension = Path.GetExtension(resource.Title);
+        var storedFileName = resource.Id + extension;
 
-        if (!File.Exists(filePath))
+        var path = Path.Combine(Directory.GetCurrentDirectory(), "Resources", storedFileName);
+
+        if (!File.Exists(path))
             throw new FileNotFoundException("File not found");
-        return resource.Id;
+
+        var bytes = await File.ReadAllBytesAsync(path, cancellationToken);
+        return new ResourceDownloadResult
+        {
+            FileContent = bytes,
+            FileName = resource.Title
+        };
     }
 }

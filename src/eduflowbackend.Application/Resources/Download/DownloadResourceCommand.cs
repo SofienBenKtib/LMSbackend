@@ -4,12 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace eduflowbackend.Application.Resources.Download;
 
-public class DownloadResourceCommand : IRequest<Guid>
-{
-    public Guid ResourceId { get; set; }
+public record DownloadResourceCommand(Guid ResourceId) : IRequest<ResourceDownloadResult>;
 
-    public DownloadResourceCommand(Guid resourceId)
-    {
-        ResourceId = resourceId;
-    }
+public class ResourceDownloadResult
+{
+    public byte[] FileContent { get; set; }
+    public string FileName { get; set; }
 }

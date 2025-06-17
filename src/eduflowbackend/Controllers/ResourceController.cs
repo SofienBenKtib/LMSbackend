@@ -52,18 +52,10 @@ public class ResourceController : ControllerBase
     }
 
     [HttpGet("download/{id}")]
-    public async Task<IActionResult> DownloadResource(Guid id)
+    public async Task<IActionResult> DownloadResource(Guid id, CancellationToken cancellationToken)
     {
-        //  Validate the resource existence
-        await _mediator.Send(new DownloadResourceCommand(id));
-
-        //  Get the resource
-        var resource = await _repository.GetByIdAsync(id);
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", resource.Title);
-        var contentType = "application/octet-stream";
-
-        var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
-        return File(fileBytes, contentType, fileDownloadName: resource.Title);
+        var result = await _mediator.Send(new DownloadResourceCommand(id), cancellationToken);
+        return File(result.FileContent, result.FileName);
     }
 
 
