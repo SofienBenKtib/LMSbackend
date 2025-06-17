@@ -1,8 +1,11 @@
 ﻿using eduflowbackend.Application.Resources.Create;
 using eduflowbackend.Application.Resources.Delete;
+using eduflowbackend.Application.Resources.Download;
 using eduflowbackend.Application.Resources.Get;
 using eduflowbackend.Application.Resources.Update;
 using eduflowbackend.Application.Resources.Upload;
+using eduflowbackend.Core.Abstractions;
+using eduflowbackend.Core.Resource;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +16,12 @@ namespace eduflowbackend.Controllers;
 public class ResourceController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IRepository<Resource> _repository;
 
-    public ResourceController(IMediator mediator)
+    public ResourceController(IMediator mediator, IRepository<Resource> repository)
     {
         _mediator = mediator;
+        _repository = repository;
     }
 
     [HttpPost]
@@ -45,6 +50,22 @@ public class ResourceController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
+    [HttpGet("download/{id}")]
+    public async Task<IActionResult> DownloadResource(Guid id)
+    {
+        //  Validate the resource existence
+        await _mediator.Send(new DownloadResourceCommand(id));
+
+        //  Get the resource
+        var resource = await _repository.GetByIdAsync(id);
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", resource.Title);
+        var contentType = "application/octet-stream";
+
+        var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
+        return File(fileBytes, contentType, fileDownloadName: resource.Title);
+    }
+
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetResourceById(Guid id)
