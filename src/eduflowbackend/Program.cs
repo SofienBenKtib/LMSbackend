@@ -1,6 +1,7 @@
 using eduflowbackend.Infrastructure;
 using eduflowbackend.Infrastructure.Data;
 using Mediator;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,9 @@ builder.Services.AddMediator(options =>
     options.Namespace = "eduflowbackend.Application";
     options.ServiceLifetime = ServiceLifetime.Scoped;
 });
+
+builder.Services.AddControllers();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -32,9 +36,13 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();
+
+app.MapControllers();
+
 
 var summaries = new[]
 {
