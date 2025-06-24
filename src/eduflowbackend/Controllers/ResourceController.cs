@@ -32,28 +32,20 @@ public class ResourcesController : ControllerBase
     }
 
     [HttpPost("upload")]
-    public async Task<IActionResult> UploadResource([FromBody] IFormFile file)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UploadResource([FromForm] IFormFile file)
     {
-        try
-        {
-            //  Creating the command
-            var command = new UploadResourceCommand(file);
-            //  Sending the command through IMediatR
-            var filedId = await _mediator.Send(command, HttpContext.RequestAborted);
-
-            return Ok(filedId);
-        }
-        catch (ArgumentException e)
-        {
-            return BadRequest(e.Message);
-        }
+        var command = new UploadResourceCommand(file);
+        var fileId = await _mediator.Send(command);
+        return Ok(fileId);
     }
 
     [HttpGet("download/{id}")]
-    public async Task<IActionResult> DownloadResource(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> DownloadResource(Guid id, [FromServices] ISender sender,
+        CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(new DownloadResourceCommand(id), cancellationToken);
-        return File(result.FileContent, result.FileName);
+        var result = await sender.Send(new DownloadResourceCommand(id), cancellationToken);
+        return File(result.FileData, result.ContentType, result.FileName);
     }
 
 

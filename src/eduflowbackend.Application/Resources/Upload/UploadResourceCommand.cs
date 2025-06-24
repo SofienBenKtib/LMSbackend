@@ -11,13 +11,13 @@ public record UploadResourceCommand : IRequest<Guid>
 
     public UploadResourceCommand(IFormFile file, string? tile, string? description)
     {
-        File = file ?? throw new ArgumentNullException(nameof(file));
+        File = file;
         Tile = tile;
         Description = description;
     }
 
     public UploadResourceCommand(IFormFile file)
     {
-        File = file ?? throw new ArgumentNullException(nameof(file));
+        File = file;
     }
 }
