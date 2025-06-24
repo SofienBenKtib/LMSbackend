@@ -17,25 +17,22 @@ public class UploadResourceHandler : IRequestHandler<UploadResourceCommand, Guid
     {
         if (request.File == null || request.File.Length == 0)
             throw new ArgumentException("File is empty");
-        /*if(request.File.Length > 10*1024*1024)
-            throw new ArgumentException("The max size should be 10MB");*/
 
-        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(request.File.FileName);
-        var fileId = Guid.NewGuid(); //  Generate a unique ID for the file
+        var fileId = Guid.NewGuid();
+        var extension = Path.GetExtension(request.File.FileName);
+        var fileName = fileId + extension;
 
-        //  Setting the upload path
-        var rootFolder = Directory.GetCurrentDirectory();
-        var uploadsFolder = Path.Combine(rootFolder, "wwwroot", "uploads");
+        var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+        if (!Directory.Exists(uploadPath))
+            Directory.CreateDirectory(uploadPath);
 
-        //  Creating the directory in case it doesn't exist
-        if (!Directory.Exists(uploadsFolder))
-            Directory.CreateDirectory(uploadsFolder);
-
-        var fullPath = Path.Combine(uploadsFolder, fileName);
-        using (var stream = new FileStream(fullPath, FileMode.Create))
+        var filePath = Path.Combine(uploadPath, fileName);
+        using (var stream = new FileStream(filePath, FileMode.Create))
         {
             await request.File.CopyToAsync(stream, cancellationToken);
         }
+
+        Console.WriteLine($"File {fileName} uploaded to {uploadPath}");
 
         return fileId;
     }
