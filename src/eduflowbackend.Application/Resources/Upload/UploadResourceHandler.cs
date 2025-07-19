@@ -32,8 +32,17 @@ public class UploadResourceHandler : IRequestHandler<UploadResourceCommand, Guid
             await request.File.CopyToAsync(stream, cancellationToken);
         }
 
+        /*//  Saving the resource metadata to the DB
+        var resource = new Resource
+        {
+            Id = fileId,
+            Title = request.File.Name,
+            CreatedAt = DateTime.Now,
+        };*/
+
         Console.WriteLine($"File {fileName} uploaded to {uploadPath}");
 
+        /*await _repository.AddAsync(resource, cancellationToken);*/
         return fileId;
     }
 }
