@@ -1,4 +1,5 @@
-﻿using eduflowbackend.Application.Resources.Create;
+﻿using System.Drawing;
+using eduflowbackend.Application.Resources.Create;
 using eduflowbackend.Application.Resources.Delete;
 using eduflowbackend.Application.Resources.Download;
 using eduflowbackend.Application.Resources.Get;
@@ -56,11 +57,29 @@ public class ResourcesController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet]
+    [HttpGet()]
     public async Task<IActionResult> GetAllResources()
     {
         var result = await _mediator.Send(new GetAllResourcesQuery());
         return Ok(result);
+    }
+
+    [HttpGet("list")]
+    public IActionResult ListAllResources()
+    {
+        var uploadPath=Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+        if(!Directory.Exists(uploadPath))
+            return Ok(new List<Resource>());
+        var files=Directory.GetFiles(uploadPath)
+            .Select(filePath=> new
+            {
+                Id = Guid.Parse(Path.GetFileNameWithoutExtension(filePath)),
+                FileName = Path.GetFileName(filePath),
+                Size=new FileInfo(filePath).Length,
+                CreateAt = DateTime.Now,
+            })
+            .ToList();
+        return Ok(files);
     }
 
     [HttpPut("{id}")]
