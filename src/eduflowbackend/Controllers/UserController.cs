@@ -18,7 +18,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddUser(CreateUserCommand command)
+    public async Task<IActionResult> AddUser([FromBody] CreateUserCommand command)
     {
         var result = await _mediator.Send(command);
         return Ok(result);
