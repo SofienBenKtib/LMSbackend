@@ -32,7 +32,7 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 //  Seeding the data
-using (var scope = app.Services.CreateScope())
+/*using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<DataSeeder>>();
@@ -40,7 +40,7 @@ using (var scope = app.Services.CreateScope())
     //  Instantiating DataSeeder manually
     var seeder = new DataSeeder(dbContext, logger, mediator);
     await seeder.SeedAsync();
-}
+}*/
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
