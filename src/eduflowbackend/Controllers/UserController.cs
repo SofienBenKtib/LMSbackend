@@ -31,7 +31,7 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("all")]
+    [HttpGet]
     public async Task<IActionResult> GetAllUsers()
     {
         var result = await _mediator.Send(new GetAllUsersCommand());
