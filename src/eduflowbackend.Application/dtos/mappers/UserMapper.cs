@@ -12,7 +12,7 @@ public class UserMapper
             FirstName = user.FirstName,
             LastName = user.LastName,
             Email = user.Email,
-            Phone = user.PhoneNumber
+            PhoneNumber = user.PhoneNumber
         };
     }
 }
