@@ -15,14 +15,16 @@ builder.Services.AddMediator(options =>
     options.ServiceLifetime = ServiceLifetime.Scoped;
 });
 
+const string corsPolicy = "AllowAngularClient";
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngularClient", policy =>
+    options.AddPolicy(corsPolicy, policy =>
     {
         policy.WithOrigins("http://localhost:4200")
             .AllowAnyHeader()
-            .AllowAnyMethod();
-        //.AllowCredentials();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 builder.Services.AddControllers();
@@ -50,6 +52,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors(corsPolicy);
 
 app.MapControllers();
 
@@ -73,7 +77,6 @@ app.MapGet("/weatherforecast", () =>
     })
     .WithName("GetWeatherForecast");
 
-app.UseCors("AllowAngularClient");
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
