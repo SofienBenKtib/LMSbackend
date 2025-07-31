@@ -51,15 +51,22 @@ public class UserController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
-        var result = await _mediator.Send(new DeleteUserCommand(id));
-        if (result.IsFailed)
+        try
         {
-            if (result.HasError<NotFoundError>())
-                return NotFound(result.Errors);
-            return BadRequest(result.Errors);
-        }
+            var result = await _mediator.Send(new DeleteUserCommand(id));
+            if (result.IsFailed)
+            {
+                if (result.HasError<NotFoundError>())
+                    return NotFound(result.Errors);
+                return BadRequest(result.Errors);
+            }
 
-        return NoContent();
-        //return Ok(result);
+            return NoContent();
+            //return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
