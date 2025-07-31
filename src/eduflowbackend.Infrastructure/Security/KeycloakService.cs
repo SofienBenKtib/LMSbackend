@@ -1,8 +1,10 @@
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using eduflowbackend.Application.Abstractions;
 using eduflowbackend.Application.Users.Create;
+using eduflowbackend.Core.Exceptions;
 using FluentResults;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -49,9 +51,37 @@ public class KeycloakService : IIdentityProviderService
 
     public async Task<Result> DeleteUserAsync(string userId)
     {
-        var request = new HttpRequestMessage(HttpMethod.Delete, $"{_keycloakConfig}/admin/realms/{_keycloakConfig.Realm}/users/{userId}");
+        /*var request = new HttpRequestMessage(HttpMethod.Delete, $"{_keycloakConfig}/admin/realms/{_keycloakConfig.Realm}/users/{userId}");
         var response = await _httpClient.SendAsync(request);
-        return response.IsSuccessStatusCode ? Result.Ok() : Result.Fail("Failed to delete Keycloak user");
+        return response.IsSuccessStatusCode ? Result.Ok() : Result.Fail("Failed to delete Keycloak user");*/
+        try
+        {
+            //  Getting the admin token
+            var tokenResult = await GetAdminAccessTokenAsync();
+            if (tokenResult.IsFailed)
+                return Result.Fail(tokenResult.Errors.First());
+
+            //  Construct a URL using BaseURL
+            var request = new HttpRequestMessage(
+                HttpMethod.Delete,
+                $"{_keycloakConfig.BaseUrl}/admin/realms/{_keycloakConfig.Realm}/users/{userId}")
+            {
+                Headers = { Authorization = new AuthenticationHeaderValue("Bearer", tokenResult.Value) }
+            };
+
+            //  Send Request
+            var response = await _httpClient.SendAsync(request);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                return Result.Fail(new NotFoundError("Keycloak user", userId));
+            return response.IsSuccessStatusCode 
+                ? Result.Ok() 
+                : Result.Fail($"Keycloak API error: {response.StatusCode}");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error deleting Keycloak user {UserId}", userId);
+            return Result.Fail("Failed to delete user due to unexpected error");
+        }
     }
 
     public async Task<Result> AssignUserToRoleAsync(string userId, string roleName)

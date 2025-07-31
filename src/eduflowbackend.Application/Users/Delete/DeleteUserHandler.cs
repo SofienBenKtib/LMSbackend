@@ -20,25 +20,41 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, Result<Guid>
 
     public async ValueTask<Result<Guid>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
-        //  Finding the user in the database
-        var user = await _repository.GetByIdAsync(request.UserId, cancellationToken);
-        if (user == null)
+        try
         {
-            return Result.Fail(new NotFoundError("User", request.UserId.ToString()));
-        }
-
-        //  Deleting from Keycloak (if exists)
-        if (!string.IsNullOrEmpty(user.Id.ToString()))
-        {
-            var identityResult = await _identityProviderService.DeleteUserAsync(user.Id.ToString());
-            if (identityResult.IsFailed)
+            //  Finding the user in the database
+            var user = await _repository.GetByIdAsync(request.UserId, cancellationToken);
+            if (user == null)
             {
-                return identityResult;
+                return Result.Fail(new NotFoundError("User", request.UserId.ToString()));
             }
-        }
 
-        //  Delete from the database
-        await _repository.DeleteAsync(user);
-        return Result.Ok();
+            //  Deleting from Keycloak (if exists)
+            // if (!string.IsNullOrEmpty(user.Id.ToString()))
+            if (user.Id != Guid.Empty)
+            {
+                var identityResult = await _identityProviderService.DeleteUserAsync(user.Id.ToString());
+                if (identityResult.IsFailed)
+                {
+                    //return identityResult;
+                    if (identityResult.HasError<NotFoundError>())
+                    {
+                        Console.WriteLine($"Keycloak user {user.Id} not found - proceeding with DB deletion");
+                    }
+                    else
+                    {
+                        return identityResult.ToResult<Guid>();
+                    }
+                }
+            }
+
+            //  Delete from the database
+            await _repository.DeleteAsync(user);
+            return Result.Ok(request.UserId);
+        }
+        catch (Exception ex)
+        {
+            return Result.Fail(new Error("Failed to delete user").CausedBy(ex));
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using eduflowbackend.Application.Queries;
 using eduflowbackend.Application.Users.Create;
 using eduflowbackend.Application.Users.Get;
+using eduflowbackend.Core.Exceptions;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
@@ -50,7 +51,22 @@ public class UserController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
-        var result = await _mediator.Send(new DeleteUserCommand(id));
-        return Ok(result);
+        try
+        {
+            var result = await _mediator.Send(new DeleteUserCommand(id));
+            if (result.IsFailed)
+            {
+                if (result.HasError<NotFoundError>())
+                    return NotFound(result.Errors);
+                return BadRequest(result.Errors);
+            }
+
+            return NoContent();
+            //return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

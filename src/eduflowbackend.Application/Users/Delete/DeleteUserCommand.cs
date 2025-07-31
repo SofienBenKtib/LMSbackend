@@ -7,7 +7,7 @@ public class DeleteUserCommand : IRequest<Result<Guid>>
 {
     public DeleteUserCommand(Guid userId)
     {
-        userId = userId;
+        UserId = userId;
     }
 
     public Guid UserId { get; set; }
