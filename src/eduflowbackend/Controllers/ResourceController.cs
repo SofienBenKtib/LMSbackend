@@ -58,14 +58,16 @@ public class ResourcesController : ControllerBase
         return Ok(result);
     }
 
+    /*
     [HttpGet()]
     public async Task<IActionResult> GetAllResources()
     {
         var result = await _mediator.Send(new GetAllResourcesQuery());
         return Ok(result);
     }
+    */
 
-    [HttpGet("list")]
+    [HttpGet]
     public IActionResult ListAllResources()
     {
         var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
