@@ -1,6 +1,7 @@
 ﻿using eduflowbackend.Application.Queries;
 using eduflowbackend.Application.Users.Create;
 using eduflowbackend.Application.Users.Get;
+using eduflowbackend.Application.Users.Update;
 using eduflowbackend.Core.Exceptions;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
@@ -40,11 +41,17 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(Guid id, UpdateUserCommand command)
+    public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UpdateUserRequest request)
     {
-        if (id != command.Id)
-            return BadRequest("Id mismatch");
-        var result = await _mediator.Send(command);
+        var cmd = new UpdateUserCommand
+        {
+            Id = id,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Email = request.Email,
+            PhoneNumber = request.PhoneNumber,
+        };
+        var result = await _mediator.Send(cmd);
         return Ok(result);
     }
 

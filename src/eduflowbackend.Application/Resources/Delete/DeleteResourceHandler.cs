@@ -1,11 +1,12 @@
 ﻿using eduflowbackend.Core.Abstractions;
+using eduflowbackend.Core.Exceptions;
 using eduflowbackend.Core.Resource;
 using FluentResults;
 using Mediator;
 
 namespace eduflowbackend.Application.Resources.Delete;
 
-public class DeleteResourceHandler : IRequestHandler<DeleteResourceCommand, Result<Guid>>
+public class DeleteResourceHandler : IRequestHandler<DeleteResourceCommand, Result>
 {
     private readonly IRepository<Resource> _repository;
 
@@ -14,12 +15,13 @@ public class DeleteResourceHandler : IRequestHandler<DeleteResourceCommand, Resu
         _repository = repository;
     }
 
-    public async ValueTask<Result<Guid>> Handle(DeleteResourceCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Result> Handle(DeleteResourceCommand request, CancellationToken cancellationToken)
     {
-        //  Retrieve the resource from the 
-        var resource = await _repository.GetByIdAsync(request.ResourceId);
-        //  Deleting the session
-        await _repository.DeleteAsync(resource);
+        var resource = await _repository.GetByIdAsync(request.ResourceId, cancellationToken);
+        if (resource != null) 
+        {
+            await _repository.DeleteAsync(resource, cancellationToken);
+        }
         return Result.Ok();
     }
 }

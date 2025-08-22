@@ -1,12 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using FluentResults;
-using Mediator;
 
+namespace eduflowbackend.Application.Users.Update;
 
-namespace eduflowbackend.Application.Queries;
-
-public class UpdateUserCommand:IRequest<Result>
+public class UpdateUserRequest
 {
     public Guid Id { get; set; }
     public string? FirstName { get; set; }

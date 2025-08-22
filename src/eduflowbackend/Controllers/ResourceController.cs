@@ -6,6 +6,7 @@ using eduflowbackend.Application.Resources.Get;
 using eduflowbackend.Application.Resources.Update;
 using eduflowbackend.Application.Resources.Upload;
 using eduflowbackend.Core.Abstractions;
+using eduflowbackend.Core.Exceptions;
 using eduflowbackend.Core.Resource;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
@@ -57,25 +58,27 @@ public class ResourcesController : ControllerBase
         return Ok(result);
     }
 
+    /*
     [HttpGet()]
     public async Task<IActionResult> GetAllResources()
     {
         var result = await _mediator.Send(new GetAllResourcesQuery());
         return Ok(result);
     }
+    */
 
-    [HttpGet("list")]
+    [HttpGet]
     public IActionResult ListAllResources()
     {
-        var uploadPath=Path.Combine(Directory.GetCurrentDirectory(), "uploads");
-        if(!Directory.Exists(uploadPath))
+        var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+        if (!Directory.Exists(uploadPath))
             return Ok(new List<Resource>());
-        var files=Directory.GetFiles(uploadPath)
-            .Select(filePath=> new
+        var files = Directory.GetFiles(uploadPath)
+            .Select(filePath => new
             {
                 Id = Guid.Parse(Path.GetFileNameWithoutExtension(filePath)),
                 FileName = Path.GetFileName(filePath),
-                Size=new FileInfo(filePath).Length,
+                Size = new FileInfo(filePath).Length,
                 CreateAt = DateTime.Now,
             })
             .ToList();
@@ -92,9 +95,30 @@ public class ResourcesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeleteResource(Guid id)
     {
         var result = await _mediator.Send(new DeleteResourceCommand(id));
-        return Ok(result);
+        if (result.IsFailed)
+        {
+            if (result.HasError<NotFoundError>())
+            {
+                return Problem(
+                    title: "Resource not found",
+                    detail: result.Errors.First().Message,
+                    statusCode: StatusCodes.Status404NotFound
+                );
+            }
+            return BadRequest(new {
+                Errors = result.Errors.Select(e => new {
+                    e.Message,
+                    e.Metadata
+                })
+            });
+        }
+    
+        return NoContent();
     }
 }

@@ -25,7 +25,11 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, Result>
         }
 
         //  Updating the user
-        user.Update(request.FirstName, request.LastName, request.Email, request.PhoneNumber);
+        user.Update(
+            request.FirstName ?? user.FirstName,
+            request.LastName ?? user.LastName,
+            request.Email ?? user.Email,
+            request.PhoneNumber ?? user.PhoneNumber);
         // user.Password=request.Password;
         await _repository.UpdateAsync(user, cancellationToken);
         return Result.Ok();
