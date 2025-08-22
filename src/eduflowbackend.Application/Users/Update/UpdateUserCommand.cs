@@ -8,7 +8,6 @@ namespace eduflowbackend.Application.Queries;
 
 public class UpdateUserCommand:IRequest<Result>
 {
-    [JsonIgnore]
     public Guid Id { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
