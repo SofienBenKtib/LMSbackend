@@ -10,10 +10,9 @@ public class SessionMapper
         {
             Id = session.Id,
             Title = session.Title,
-            Description = session.Description,
+            Link= session.Link,
             StartDate = session.StartDate,
-            EndDate = session.EndDate,
-            InstructorId = session.InstructorId,
+            /*InstructorId = session.InstructorId,*/
         };
     }
 
@@ -22,9 +21,8 @@ public class SessionMapper
         return new Session
         {
             Title = dto.Title,
-            Description = dto.Description,
+            Link = dto.Link,
             StartDate = dto.StartDate,
-            EndDate = dto.EndDate,
             InstructorId = dto.InstructorId,
         };
     }

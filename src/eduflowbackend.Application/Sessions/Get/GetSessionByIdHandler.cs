@@ -28,11 +28,8 @@ public class GetSessionByIdHandler : IRequestHandler<GetSessionByIdQuery, Result
         var sessionDto = new SessionDto
         {
             Id = session.Id,
-            Title = session.Title,
-            Description = session.Description,
+            Link=session.Link,
             StartDate = session.StartDate,
-            EndDate = session.EndDate,
-            InstructorId = session.InstructorId,
         };
         return Result.Ok(sessionDto);
     }

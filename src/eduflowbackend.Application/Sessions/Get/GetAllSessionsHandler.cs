@@ -1,23 +1,28 @@
-﻿using eduflowbackend.Application.dtos;
+﻿using System.Collections.Concurrent;
+using eduflowbackend.Application.dtos;
 using eduflowbackend.Core.Abstractions;
+using eduflowbackend.Core.Session;
 using FluentResults;
 using Mediator;
 
 namespace eduflowbackend.Application.Sessions.Get;
 
-public class GetAllSessionsHandler : IRequestHandler<GetAllSessionsQuery, Result<List<SessionDto>>>
+public class GetAllSessionsHandler : IRequestHandler<GetAllSessionsQuery, IEnumerable<Session>>
 {
-    private readonly IRepository<SessionDto> _repository;
+    private readonly IRepository<Session> _repository;
 
-    public GetAllSessionsHandler(IRepository<SessionDto> repository)
+    public GetAllSessionsHandler(IRepository<Session> repository)
     {
         _repository = repository;
     }
 
-    public async ValueTask<Result<List<SessionDto>>> Handle(GetAllSessionsQuery request,
+    public ValueTask<IEnumerable<Session>> Handle(GetAllSessionsQuery request,
         CancellationToken cancellationToken)
     {
-            var sessions = await _repository.GetAllAsync(cancellationToken);
-            return Result.Ok(sessions);
+        var sessions = SessionStorage.Sessions.Values
+            .OrderByDescending(s => s.StartDate)
+            .ToList();
+        
+        return ValueTask.FromResult<IEnumerable<Session>>(sessions);
     }
 }

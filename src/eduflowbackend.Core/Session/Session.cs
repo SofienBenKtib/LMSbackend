@@ -5,6 +5,8 @@ public class Session
     public Guid Id { get; set; }
 
     public string Title { get; set; }
+    public string Link { get; set; }
+    
     public string Description { get; set; }
     public DateTime StartDate { get; set; } = DateTime.Now;
     public DateTime EndDate { get; set; }
@@ -20,10 +22,10 @@ public class Session
     {
         
     }
-    public Session(string title, string description)
+    public Session(string link, DateTime startDate)
     {
-        Title = title;
-        Description = description;
+        Link = link;
+        StartDate = startDate;
     }
 
     public Session(string title, string description, DateTime startDate, DateTime endDate)
