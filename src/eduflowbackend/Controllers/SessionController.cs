@@ -1,6 +1,7 @@
 ﻿using eduflowbackend.Application.Sessions.Create;
 using eduflowbackend.Application.Sessions.Delete;
 using eduflowbackend.Application.Sessions.Get;
+using eduflowbackend.Core.Session;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,13 +19,25 @@ public class SessionController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddSession(CreateSessionCommand command)
+    public async Task<IActionResult> CreateSession([FromBody] CreateSessionCommand request)
     {
-        var result = await _mediator.Send(command);
-        return Ok(result);
+        try
+        {
+            var command = new CreateSessionCommand(request.Link);
+            var session = await _mediator.Send(command);
+            return Ok(session);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = "An unexpected error occurred" });
+        }
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetSessionById(Guid id)
     {
         var result = await _mediator.Send(new GetSessionByIdQuery(id));
@@ -32,10 +45,11 @@ public class SessionController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllSessions()
+    public async Task<ActionResult<IEnumerable<Session>>> GetAllSessions()
     {
-        var result = await _mediator.Send(new GetAllSessionsQuery());
-        return Ok(result);
+        var query = new GetAllSessionsQuery();
+        var sessions = await _mediator.Send(query);
+        return Ok(sessions);
     }
 
     [HttpDelete("{id}")]

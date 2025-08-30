@@ -1,27 +1,30 @@
-﻿using FluentResults;
+﻿using eduflowbackend.Core.Session;
+using FluentResults;
 using Mediator;
 
 namespace eduflowbackend.Application.Sessions.Create;
 
-/// <summary>
+/*/// <summary>
 /// This class is a DTO that's used to retrieve data from the front-end
-/// </summary>
-public class CreateSessionRequest
+/// </summary>*/
+/*public class CreateSessionRequest
 {
-    public string Title { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-}
-
-/// <summary>
+    public string Link { get; set; } = string.Empty;
+    public DateTime StartDate { get; set; }
+}*/
+/*/// <summary>
 /// This class represents a command in the CQRS pattern
-/// </summary>
-public class CreateSessionCommand : IRequest<Result<Guid>>
+/// </summary>*/
+/*public class CreateSessionCommand : IRequest<Result<Guid>>
 {
-    public CreateSessionCommand(string title, string description)
+    public CreateSessionCommand(string link, DateTime startDate)
     {
-        Title = title;
-        Description = description;
+        Link = link;
+        StartDate = startDate;
     }
-    public string Title { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-}
+    public string Link { get; set; } = string.Empty;
+    public DateTime StartDate { get; set; }
+
+}*/
+
+public record CreateSessionCommand(string Link) : IRequest<Session>;
