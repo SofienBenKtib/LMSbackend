@@ -52,10 +52,16 @@ public class SessionController : ControllerBase
         return Ok(sessions);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteSessionById(Guid id)
     {
-        var result = await _mediator.Send(new DeleteSessionCommand(id));
-        return Ok(result);
+        var command = new DeleteSessionCommand(id);
+        var result = await _mediator.Send(command);
+        if (result)
+        {
+            return Ok();
+        }
+
+        return NotFound();
     }
 }
